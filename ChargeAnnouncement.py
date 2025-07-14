@@ -1,6 +1,6 @@
 import pandas as pd
 import pyodbc
-from datetime import datetime,timedelta
+from datetime import datetime
 import logging
 from sendEmail import Email  # Assuming an Email module handles email sending
 from logging.handlers import RotatingFileHandler
@@ -101,16 +101,12 @@ cursor.executemany(sql, df_all.values.tolist())
 conn.commit()
 logging.info(f"Successfully inserted {len(df_all)} records into {table_name}")
 
-# 設定提前14天通知
-days_before_warning = 14
-warning_threshold = datetime.today() + timedelta(days=days_before_warning)
-
 # Query charging warning items
 query = f"""
 SELECT * FROM {table_name}
-WHERE [Charging warning date] <= ? AND [Remark] = 'Inventory'
+WHERE [Charging warning date] < GETDATE() AND [Remark] = 'Inventory'
 """
-df_warning = pd.read_sql(query, conn, params=[warning_threshold])
+df_warning = pd.read_sql(query, conn)
 logging.info(f"Found {len(df_warning)} records for charging warning")
 
 cursor.close()
