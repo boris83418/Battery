@@ -33,8 +33,6 @@ class Email:
         try:
             smtp_server = "twmail.deltaww.com"
             server = smtplib.SMTP(smtp_server)
-            server.starttls()
-            server.login(sender_email, password)
             server.sendmail(sender_email, receiver_email, msg.as_string())
             print("Email sent successfully!")
         except Exception as e:

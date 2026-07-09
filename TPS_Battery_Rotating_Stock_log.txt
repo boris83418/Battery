@@ -161,3 +161,94 @@
 2025-03-24 10:13:59,437 - INFO - Found 1 records for charging warning
 2025-03-24 10:13:59,455 - INFO - Database connection closed successfully
 2025-03-24 10:14:05,692 - INFO - Email sent successfully
+2026-07-09 14:28:54,646 - INFO - Program started running
+2026-07-09 14:28:57,785 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\Åúï®ó¨&OBMã§óp\í~ìdírëäËê\TPSí~ìdíråüç∏_FAEï®ó¨ã§ópï\öd_2025.xlsx, Sheet: é¸Ázïi
+2026-07-09 14:28:57,787 - INFO - SOC% column successfully processed
+2026-07-09 14:28:57,790 - INFO - Date column successfully converted to datetime format
+2026-07-09 14:28:57,792 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-09 14:28:57,793 - INFO - No. column successfully converted to integer format
+2026-07-09 14:28:57,797 - INFO - Missing values handled successfully
+2026-07-09 14:28:58,670 - INFO - Successfully connected to the database
+2026-07-09 14:28:58,700 - INFO - Checked and created table if not exists: TPS_Bettery_Rotating_Stock
+2026-07-09 14:28:58,723 - INFO - Cleared table: TPS_Bettery_Rotating_Stock
+2026-07-09 14:28:59,542 - INFO - Successfully inserted 86 records into TPS_Bettery_Rotating_Stock
+2026-07-09 14:29:01,354 - INFO - Found 12 records for charging warning
+2026-07-09 14:29:01,364 - INFO - Database connection closed successfully
+2026-07-09 14:30:06,357 - INFO - Program started running
+2026-07-09 14:30:07,425 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\Åúï®ó¨&OBMã§óp\í~ìdírëäËê\TPSí~ìdíråüç∏_FAEï®ó¨ã§ópï\öd_2025.xlsx, Sheet: é¸Ázïi
+2026-07-09 14:30:07,426 - INFO - SOC% column successfully processed
+2026-07-09 14:30:07,429 - INFO - Date column successfully converted to datetime format
+2026-07-09 14:30:07,431 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-09 14:30:07,433 - INFO - No. column successfully converted to integer format
+2026-07-09 14:30:07,440 - INFO - Missing values handled successfully
+2026-07-09 14:30:07,809 - INFO - Successfully connected to the database
+2026-07-09 14:30:07,817 - INFO - Checked and created table if not exists: TPS_Bettery_Rotating_Stock
+2026-07-09 14:30:07,826 - INFO - Cleared table: TPS_Bettery_Rotating_Stock
+2026-07-09 14:30:08,663 - INFO - Successfully inserted 86 records into TPS_Bettery_Rotating_Stock
+2026-07-09 14:30:09,529 - INFO - Found 12 records for charging warning
+2026-07-09 14:30:09,529 - INFO - Database connection closed successfully
+2026-07-09 14:30:26,646 - INFO - Email sent successfully
+2026-07-09 17:05:35,238 - INFO - Program started running
+2026-07-09 17:05:38,126 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\Åúï®ó¨&OBMã§óp\í~ìdírëäËê\TPSí~ìdíråüç∏_FAEï®ó¨ã§ópï\öd_2025.xlsx, Sheet: é¸Ázïi
+2026-07-09 17:05:38,127 - INFO - SOC% column successfully processed
+2026-07-09 17:05:38,130 - INFO - Date column successfully converted to datetime format
+2026-07-09 17:05:38,133 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-09 17:05:38,134 - INFO - No. column successfully converted to integer format
+2026-07-09 17:05:38,138 - INFO - Missing values handled successfully
+2026-07-09 17:05:38,889 - INFO - Successfully connected to the database
+2026-07-09 17:05:38,908 - INFO - Checked and created table if not exists: TPS_Bettery_Rotating_Stock
+2026-07-09 17:05:38,916 - INFO - Cleared table: TPS_Bettery_Rotating_Stock
+2026-07-09 17:05:39,473 - INFO - Successfully inserted 86 records into TPS_Bettery_Rotating_Stock
+2026-07-09 17:05:41,042 - INFO - Found 12 records for charging warning
+2026-07-09 17:05:41,050 - INFO - Database connection closed successfully
+2026-07-09 17:05:58,797 - ERROR - One or more emails failed to send
+2026-07-09 17:07:44,165 - INFO - Program started running
+2026-07-09 17:07:46,696 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\Åúï®ó¨&OBMã§óp\í~ìdírëäËê\TPSí~ìdíråüç∏_FAEï®ó¨ã§ópï\öd_2025.xlsx, Sheet: é¸Ázïi
+2026-07-09 17:07:46,697 - INFO - SOC% column successfully processed
+2026-07-09 17:07:46,700 - INFO - Date column successfully converted to datetime format
+2026-07-09 17:07:46,702 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-09 17:07:46,703 - INFO - No. column successfully converted to integer format
+2026-07-09 17:07:46,706 - INFO - Missing values handled successfully
+2026-07-09 17:07:47,327 - INFO - Successfully connected to the database
+2026-07-09 17:07:47,334 - INFO - Checked and created table if not exists: TPS_Bettery_Rotating_Stock
+2026-07-09 17:07:47,344 - INFO - Cleared table: TPS_Bettery_Rotating_Stock
+2026-07-09 17:07:47,909 - INFO - Successfully inserted 86 records into TPS_Bettery_Rotating_Stock
+2026-07-09 17:07:49,411 - INFO - Found 12 records for charging warning
+2026-07-09 17:07:49,419 - INFO - Database connection closed successfully
+2026-07-09 17:10:10,181 - INFO - Program started running
+2026-07-09 17:10:12,699 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\Åúï®ó¨&OBMã§óp\í~ìdírëäËê\TPSí~ìdíråüç∏_FAEï®ó¨ã§ópï\öd_2025.xlsx, Sheet: é¸Ázïi
+2026-07-09 17:10:12,702 - INFO - SOC% column successfully processed
+2026-07-09 17:10:12,705 - INFO - Date column successfully converted to datetime format
+2026-07-09 17:10:12,708 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-09 17:10:12,709 - INFO - No. column successfully converted to integer format
+2026-07-09 17:10:12,714 - INFO - Missing values handled successfully
+2026-07-09 17:10:13,342 - INFO - Successfully connected to the database
+2026-07-09 17:10:13,348 - INFO - Checked and created table if not exists: TPS_Bettery_Rotating_Stock
+2026-07-09 17:10:13,356 - INFO - Cleared table: TPS_Bettery_Rotating_Stock
+2026-07-09 17:10:13,910 - INFO - Successfully inserted 86 records into TPS_Bettery_Rotating_Stock
+2026-07-09 17:10:15,593 - INFO - Found 12 records for charging warning
+2026-07-09 17:10:15,606 - INFO - Database connection closed successfully
+2026-07-09 17:10:17,470 - INFO - Email send requested for boris.wang@deltaww.com
+2026-07-09 17:10:21,862 - INFO - Email send requested for JPSTC.LGS@deltaww.com
+2026-07-09 17:10:23,454 - INFO - Email send requested for JPOBMFAE@deltaww.com
+2026-07-09 17:10:23,455 - INFO - Email sent successfully
+2026-07-09 17:12:24,694 - INFO - Program started running
+2026-07-09 17:12:35,197 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\Åúï®ó¨&OBMã§óp\í~ìdírëäËê\TPSí~ìdíråüç∏_FAEï®ó¨ã§ópï\öd_2025.xlsx, Sheet: é¸Ázïi
+2026-07-09 17:12:35,198 - INFO - SOC% column successfully processed
+2026-07-09 17:12:35,200 - INFO - Date column successfully converted to datetime format
+2026-07-09 17:12:35,202 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-09 17:12:35,204 - INFO - No. column successfully converted to integer format
+2026-07-09 17:12:35,208 - INFO - Missing values handled successfully
+2026-07-09 17:12:35,870 - INFO - Successfully connected to the database
+2026-07-09 17:12:35,875 - INFO - Checked and created table if not exists: TPS_Bettery_Rotating_Stock
+2026-07-09 17:12:35,883 - INFO - Cleared table: TPS_Bettery_Rotating_Stock
+2026-07-09 17:12:36,391 - INFO - Successfully inserted 86 records into TPS_Bettery_Rotating_Stock
+2026-07-09 17:12:37,939 - INFO - Found 12 records for charging warning
+2026-07-09 17:12:37,950 - INFO - Database connection closed successfully
+2026-07-09 17:12:39,743 - INFO - Email send requested for boris.wang@deltaww.com
+2026-07-09 17:12:41,309 - INFO - Email send requested for LUKE.ZHANG@deltaww.com
+2026-07-09 17:12:42,788 - INFO - Email send requested for XIN.ZHONG@DELTAWW.COM
+2026-07-09 17:12:44,268 - INFO - Email send requested for V-CHIAHSING.LIN@DELTAWW.COM
+2026-07-09 17:12:45,785 - INFO - Email send requested for V-YAOTING.YANG@DELTAWW.COM
+2026-07-09 17:12:47,352 - INFO - Email send requested for SHAOJIN.WU@DELTAWW.COM
+2026-07-09 17:12:47,353 - INFO - Email sent successfully

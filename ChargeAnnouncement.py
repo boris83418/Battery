@@ -4,13 +4,15 @@ from datetime import datetime
 import logging
 from sendEmail import Email  # Assuming an Email module handles email sending
 from logging.handlers import RotatingFileHandler
+from pathlib import Path
+import os
 
 # Set Excel file path
 excel_file = r"\\jpdejstcfs01\STC_share\●物流&OBM共用\蓄電池相關\TPS蓄電池検査_FAE物流共用表單_2025.xlsx"
 
 # Set log file path
 current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-log_file = "Battery/TPS_Battery_Rotating_Stock_log.txt"
+log_file = Path(__file__).resolve().parent / "TPS_Battery_Rotating_Stock_log.txt"
 handler = RotatingFileHandler(log_file, maxBytes=10*1024*1024, backupCount=5)  # 10MB per file, keep 5 backups
 logging.basicConfig(handlers=[handler], level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 # Log start
@@ -104,7 +106,7 @@ logging.info(f"Successfully inserted {len(df_all)} records into {table_name}")
 # Query charging warning items
 query = f"""
 SELECT * FROM {table_name}
-WHERE [Charging warning date] < GETDATE() AND [Remark] = 'Inventory'
+WHERE [Charging warning date] <= GETDATE() AND [Remark] = 'Inventory'
 """
 df_warning = pd.read_sql(query, conn)
 logging.info(f"Found {len(df_warning)} records for charging warning")
@@ -115,7 +117,7 @@ logging.info("Database connection closed successfully")
 
 # Prepare email content
 sender_email = "SRV.ITREMIND.RBT@deltaww.com"
-password = "Dej1tasd"
+password = os.getenv("DELTA_SMTP_PASSWORD", "Dej1tasd")
 email = Email()
 subject = "Charging Warning for Inventory Items"
 
@@ -133,21 +135,17 @@ if not df_warning.empty:
     <p style="font-size: 18px; font-family: 'Arial', sans-serif; color: #333;">The following models need attention for charging and discharging.</p>
     """
 else:
-    html_table = "<table><tr>" + "".join(f"<th>{col}</th>" for col in df_all.columns) + "</tr></table>"
+    html_table = df_warning.to_html(index=False, escape=False)
     body_content = """
     <p style="font-size: 18px; font-family: 'Arial', sans-serif; color: #333;">No charging or discharging needed for models this week.</p>
     """
 
-charging_warning_date_index = 8
-
-# Convert table and modify header background color for Charging warning date
-html_table = df_warning.to_html(index=False, escape=False)
-
 # Manually set red background color for Charging warning date column header
-html_table = html_table.replace(
-    f"<th>{df_warning.columns[charging_warning_date_index]}</th>", 
-    f"<th style='background-color: #FF0000; color: white;'>{df_warning.columns[charging_warning_date_index]}</th>"
-)
+if "Charging warning date" in df_warning.columns:
+    html_table = html_table.replace(
+        "<th>Charging warning date</th>",
+        "<th style='background-color: #FF0000; color: white;'>Charging warning date</th>"
+    )
 
 body = f"""
 <html>
@@ -183,8 +181,24 @@ body = f"""
 
 # Send email with log file attached
 # for u in ['boris.wang@deltaww.com']:
-#     email.send_email(sender_email, password, u, subject, body, log_file)
-for u in ['boris.wang@deltaww.com','JPSTC.LGS@deltaww.com','JPOBMFAE@deltaww.com']:
-    email.send_email(sender_email, password, u, subject, body, log_file)
+#     email.send_email(sender_email, password, u, subject, body, [str(log_file)])
+email_sent = True
+attachments = [str(log_file)] if log_file.exists() else []
+recipients = ['boris.wang@deltaww.com', 'LUKE.ZHANG@deltaww.com', 'XIN.ZHONG@DELTAWW.COM', 'V-CHIAHSING.LIN@DELTAWW.COM', 'V-YAOTING.YANG@DELTAWW.COM','SHAOJIN.WU@DELTAWW.COM']
 
-logging.info("Email sent successfully")
+for u in recipients:
+    try:
+        result = email.send_email(sender_email, password, u, subject, body, attachments)
+        if result is False:
+            email_sent = False
+            logging.error(f"Email failed to send to {u}")
+        else:
+            logging.info(f"Email send requested for {u}")
+    except Exception as e:
+        email_sent = False
+        logging.error(f"Email failed to send to {u}: {e}")
+
+if email_sent:
+    logging.info("Email sent successfully")
+else:
+    logging.error("One or more emails failed to send")
