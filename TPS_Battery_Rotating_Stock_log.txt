@@ -252,3 +252,142 @@
 2026-07-09 17:12:45,785 - INFO - Email send requested for V-YAOTING.YANG@DELTAWW.COM
 2026-07-09 17:12:47,352 - INFO - Email send requested for SHAOJIN.WU@DELTAWW.COM
 2026-07-09 17:12:47,353 - INFO - Email sent successfully
+2026-07-31 10:02:43,329 - INFO - Program started running for TPS
+2026-07-31 10:02:46,362 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\Åúï®ó¨&OBMã§óp\í~ìdírëäËê\TPSí~ìdíråüç∏_FAEï®ó¨ã§ópï\öd_2025.xlsx, Sheet: é¸Ázïi
+2026-07-31 10:02:46,364 - INFO - SOC%% column successfully processed
+2026-07-31 10:02:46,369 - INFO - Date column successfully converted to datetime format
+2026-07-31 10:02:46,372 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-31 10:02:46,373 - INFO - No. column successfully converted to integer format
+2026-07-31 10:02:46,377 - INFO - Missing values handled successfully
+2026-07-31 10:02:46,381 - INFO - Found 10 records for charging warning
+2026-07-31 10:06:41,848 - INFO - Program started running for TPS
+2026-07-31 10:06:43,494 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\Åúï®ó¨&OBMã§óp\í~ìdírëäËê\TPSí~ìdíråüç∏_FAEï®ó¨ã§ópï\öd_2025.xlsx, Sheet: é¸Ázïi
+2026-07-31 10:06:43,496 - INFO - SOC%% column successfully processed
+2026-07-31 10:06:43,499 - INFO - Date column successfully converted to datetime format
+2026-07-31 10:06:43,502 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-31 10:06:43,502 - INFO - No. column successfully converted to integer format
+2026-07-31 10:06:43,504 - INFO - Missing values handled successfully
+2026-07-31 10:06:43,506 - INFO - Found 10 records for charging warning
+2026-07-31 10:09:31,395 - INFO - Program started running for TPS
+2026-07-31 10:09:32,825 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\Åúï®ó¨&OBMã§óp\í~ìdírëäËê\TPSí~ìdíråüç∏_FAEï®ó¨ã§ópï\öd_2025.xlsx, Sheet: é¸Ázïi
+2026-07-31 10:09:32,826 - INFO - SOC%% column successfully processed
+2026-07-31 10:09:32,828 - INFO - Date column successfully converted to datetime format
+2026-07-31 10:09:32,830 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-31 10:09:32,831 - INFO - No. column successfully converted to integer format
+2026-07-31 10:09:32,832 - INFO - Missing values handled successfully
+2026-07-31 10:09:32,834 - INFO - Found 10 records for charging warning
+2026-07-31 10:16:32,280 - INFO - Program started running for TPS
+2026-07-31 10:16:34,228 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\Åúï®ó¨&OBMã§óp\í~ìdírëäËê\TPSí~ìdíråüç∏_FAEï®ó¨ã§ópï\öd_2025.xlsx, Sheet: é¸Ázïi
+2026-07-31 10:16:34,230 - INFO - SOC%% column successfully processed
+2026-07-31 10:16:34,230 - INFO - Date column successfully converted to datetime format
+2026-07-31 10:16:34,245 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-31 10:16:34,246 - INFO - No. column successfully converted to integer format
+2026-07-31 10:16:34,251 - INFO - Missing values handled successfully
+2026-07-31 10:16:34,258 - INFO - Found 10 records for charging warning
+2026-07-31 10:16:35,976 - INFO - Email sent successfully to all recipients
+2026-07-31 10:16:35,976 - INFO - Program finished successfully for TPS
+2026-07-31 10:23:33,411 - INFO - Program started running for TPS
+2026-07-31 10:23:34,317 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\Åúï®ó¨&OBMã§óp\í~ìdírëäËê\TPSí~ìdíråüç∏_FAEï®ó¨ã§ópï\öd_2025.xlsx, Sheet: é¸Ázïi
+2026-07-31 10:23:34,317 - INFO - SOC%% column successfully processed
+2026-07-31 10:23:34,317 - INFO - Date column successfully converted to datetime format
+2026-07-31 10:23:34,317 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-31 10:23:34,317 - INFO - No. column successfully converted to integer format
+2026-07-31 10:23:34,317 - INFO - Missing values handled successfully
+2026-07-31 10:23:34,317 - INFO - Found 10 records for charging warning
+2026-07-31 10:23:40,108 - ERROR - Program failed for TPS
+Traceback (most recent call last):
+  File "d:\DeltaBox\OneDrive - Delta Electronics, Inc\deltaproject\DEJbackup\Battery\ChargeAnnouncement.py", line 263, in main
+    run_job(job_name, args)
+  File "d:\DeltaBox\OneDrive - Delta Electronics, Inc\deltaproject\DEJbackup\Battery\ChargeAnnouncement.py", line 250, in run_job
+    send_warning_email(config, body)
+  File "d:\DeltaBox\OneDrive - Delta Electronics, Inc\deltaproject\DEJbackup\Battery\ChargeAnnouncement.py", line 230, in send_warning_email
+    email.send_email(
+  File "d:\DeltaBox\OneDrive - Delta Electronics, Inc\deltaproject\DEJbackup\Battery\sendEmail.py", line 59, in send_email
+    server.sendmail(sender_email, receiver_list, msg.as_string())
+  File "C:\Users\boris.wang\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 876, in sendmail
+    raise SMTPSenderRefused(code, resp, from_addr)
+smtplib.SMTPSenderRefused: (530, b'5.7.57 SMTP; Client was not authenticated to send anonymous mail during MAIL FROM', 'boris.wang@deltaww.com')
+2026-07-31 10:23:56,875 - INFO - Program started running for TPS
+2026-07-31 10:23:57,457 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\Åúï®ó¨&OBMã§óp\í~ìdírëäËê\TPSí~ìdíråüç∏_FAEï®ó¨ã§ópï\öd_2025.xlsx, Sheet: é¸Ázïi
+2026-07-31 10:23:57,457 - INFO - SOC%% column successfully processed
+2026-07-31 10:23:57,457 - INFO - Date column successfully converted to datetime format
+2026-07-31 10:23:57,473 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-31 10:23:57,476 - INFO - No. column successfully converted to integer format
+2026-07-31 10:23:57,478 - INFO - Missing values handled successfully
+2026-07-31 10:23:57,479 - INFO - Found 10 records for charging warning
+2026-07-31 10:23:59,227 - INFO - Email sent successfully to all recipients
+2026-07-31 10:23:59,227 - INFO - Program finished successfully for TPS
+2026-07-31 10:25:53,441 - INFO - Program started running for TPS
+2026-07-31 10:25:54,655 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\Åúï®ó¨&OBMã§óp\í~ìdírëäËê\TPSí~ìdíråüç∏_FAEï®ó¨ã§ópï\öd_2025.xlsx, Sheet: é¸Ázïi
+2026-07-31 10:25:54,655 - INFO - SOC%% column successfully processed
+2026-07-31 10:25:54,658 - INFO - Date column successfully converted to datetime format
+2026-07-31 10:25:54,659 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-31 10:25:54,660 - INFO - No. column successfully converted to integer format
+2026-07-31 10:25:54,661 - INFO - Missing values handled successfully
+2026-07-31 10:25:54,663 - INFO - Found 10 records for charging warning
+2026-07-31 10:26:25,972 - ERROR - Program failed for TPS
+Traceback (most recent call last):
+  File "C:\Users\boris.wang\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 398, in getreply
+    line = self.file.readline(_MAXLINE + 1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\boris.wang\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 708, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\boris.wang\AppData\Local\Programs\Python\Python312\Lib\ssl.py", line 1252, in recv_into
+    return self.read(nbytes, buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\boris.wang\AppData\Local\Programs\Python\Python312\Lib\ssl.py", line 1104, in read
+    return self._sslobj.read(len, buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TimeoutError: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\DeltaBox\OneDrive - Delta Electronics, Inc\deltaproject\DEJbackup\Battery\ChargeAnnouncement.py", line 263, in main
+    run_job(job_name, args)
+  File "D:\DeltaBox\OneDrive - Delta Electronics, Inc\deltaproject\DEJbackup\Battery\ChargeAnnouncement.py", line 250, in run_job
+    send_warning_email(config, body)
+  File "D:\DeltaBox\OneDrive - Delta Electronics, Inc\deltaproject\DEJbackup\Battery\ChargeAnnouncement.py", line 230, in send_warning_email
+    email.send_email(
+  File "D:\DeltaBox\OneDrive - Delta Electronics, Inc\deltaproject\DEJbackup\Battery\sendEmail.py", line 59, in send_email
+    server.sendmail(sender_email, receiver_list, msg.as_string())
+  File "C:\Users\boris.wang\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 891, in sendmail
+    (code, resp) = self.data(msg)
+                   ^^^^^^^^^^^^^^
+  File "C:\Users\boris.wang\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 580, in data
+    (code, msg) = self.getreply()
+                  ^^^^^^^^^^^^^^^
+  File "C:\Users\boris.wang\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 401, in getreply
+    raise SMTPServerDisconnected("Connection unexpectedly closed: "
+smtplib.SMTPServerDisconnected: Connection unexpectedly closed: The read operation timed out
+2026-07-31 10:39:14,643 - INFO - Program started running for TPS
+2026-07-31 10:39:17,064 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\‚óèÁâ©ÊµÅ&OBMÂÖ±Áî®\ËìÑÈõªÊ±†Áõ∏Èóú\TPSËìÑÈõªÊ±†Ê§úÊüª_FAEÁâ©ÊµÅÂÖ±Áî®Ë°®ÂñÆ_2025.xlsx, Sheet: Âë®ËΩâÂìÅ
+2026-07-31 10:39:17,064 - INFO - SOC%% column successfully processed
+2026-07-31 10:39:17,072 - INFO - Date column successfully converted to datetime format
+2026-07-31 10:39:17,072 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-31 10:39:17,077 - INFO - No. column successfully converted to integer format
+2026-07-31 10:39:17,082 - INFO - Missing values handled successfully
+2026-07-31 10:39:17,086 - INFO - Found 10 records for charging warning
+2026-07-31 10:40:39,364 - INFO - Email sent successfully to all recipients
+2026-07-31 10:40:39,372 - INFO - Program finished successfully for TPS
+2026-07-31 11:11:02,130 - INFO - Program started running for TPS
+2026-07-31 11:11:04,555 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\‚óèÁâ©ÊµÅ&OBMÂÖ±Áî®\ËìÑÈõªÊ±†Áõ∏Èóú\TPSËìÑÈõªÊ±†Ê§úÊüª_FAEÁâ©ÊµÅÂÖ±Áî®Ë°®ÂñÆ_2025.xlsx, Sheet: Âë®ËΩâÂìÅ
+2026-07-31 11:11:04,559 - INFO - SOC%% column successfully processed
+2026-07-31 11:11:04,564 - INFO - Date column successfully converted to datetime format
+2026-07-31 11:11:04,568 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-31 11:11:04,570 - INFO - No. column successfully converted to integer format
+2026-07-31 11:11:04,573 - INFO - Missing values handled successfully
+2026-07-31 11:11:04,578 - INFO - Found 7 records for charging warning
+2026-07-31 11:11:06,079 - INFO - Email sent successfully to all recipients
+2026-07-31 11:11:06,079 - INFO - Program finished successfully for TPS
+2026-07-31 11:12:03,076 - INFO - Program started running for TPS
+2026-07-31 11:12:04,657 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\‚óèÁâ©ÊµÅ&OBMÂÖ±Áî®\ËìÑÈõªÊ±†Áõ∏Èóú\TPSËìÑÈõªÊ±†Ê§úÊüª_FAEÁâ©ÊµÅÂÖ±Áî®Ë°®ÂñÆ_2025.xlsx, Sheet: Âë®ËΩâÂìÅ
+2026-07-31 11:12:04,659 - INFO - SOC%% column successfully processed
+2026-07-31 11:12:04,661 - INFO - Date column successfully converted to datetime format
+2026-07-31 11:12:04,662 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-31 11:12:04,663 - INFO - No. column successfully converted to integer format
+2026-07-31 11:12:04,664 - INFO - Missing values handled successfully
+2026-07-31 11:12:04,667 - INFO - Found 7 records for charging warning
+2026-07-31 11:12:06,339 - INFO - Email sent successfully to all recipients
+2026-07-31 11:12:06,341 - INFO - Program finished successfully for TPS

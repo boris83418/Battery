@@ -1,155 +1,208 @@
-import pandas as pd
-import pyodbc
-from datetime import datetime
+import argparse
 import logging
-from sendEmail import Email  # Assuming an Email module handles email sending
+import os
+from pathlib import Path
 from logging.handlers import RotatingFileHandler
 
-# Set Excel file path
-excel_file = r"\\jpdejstcfs01\STC_share\●物流&OBM共用\蓄電池相關\TPS蓄電池検査_FAE物流共用表單_2025.xlsx"
+import pandas as pd
 
-# Set log file path
-current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-log_file = "Battery/TPS_Battery_Rotating_Stock_log.txt"
-handler = RotatingFileHandler(log_file, maxBytes=10*1024*1024, backupCount=5)  # 10MB per file, keep 5 backups
-logging.basicConfig(handlers=[handler], level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-# Log start
-logging.info("Program started running")
-
-# Specify the sheet to read
-specific_sheet = "周轉品"
-
-# Read the specified Excel sheet
-try:
-    df_all = pd.read_excel(excel_file, sheet_name=specific_sheet)
-    logging.info(f"Successfully read Excel file: {excel_file}, Sheet: {specific_sheet}")
-except Exception as e:
-    logging.error(f"Error reading Excel file: {e}")
-    raise
+from sendEmail import Email
 
 
-# Convert "SOC%" column
-if "SOC%" in df_all.columns:
-    def convert_soc(value):
-        try:
-            if pd.isna(value) or value is None:
-                return None
-            elif isinstance(value, (int, float)):
-                return f"{value * 100:.1f}%" if 0 <= value <= 1 else str(value)
-            else:
-                return str(value)
-        except Exception as e:
-            logging.error(f"Error processing SOC% value {value}: {e}")
-            return str(value)
+BASE_EXCEL_DIR = r"\\jpdejstcfs01\STC_share\●物流&OBM共用\蓄電池相關"
+SCRIPT_DIR = Path(__file__).resolve().parent
 
-    df_all["SOC%"] = df_all["SOC%"].apply(convert_soc)
-    logging.info("SOC% column successfully processed")
+TPS_RECIPIENTS = [
+    # Production TPS recipients:
+    "LUKE.ZHANG@deltaww.com",
+    "XIN.ZHONG@DELTAWW.com",
+    "V-CHIAHSING.LIN@DELTAWW.com",
+    "V-YAOTING.YANG@DELTAWW.com",
+    "SHAOJIN.WU@DELTAWW.com",
+    "SA.PAPANA@deltaww.com",
+    "AA.ZHU@deltaww.com",
+]
+
+PVI_RECIPIENTS = [
+    # Production PVI recipients:
+    "XIN.ZHONG@deltaww.com",
+    "COOPER.ZHAO@deltaww.com",
+    "V-JUNTENG.MA@deltaww.com",
+    "V-JING.ZHOU@deltaww.com",
+    "LANG.LUAN@deltaww.com",
+]
+
+JOBS = {
+    "TPS": {
+        "excel_filename": "TPS蓄電池検査_FAE物流共用表單_2025.xlsx",
+        # Original sender: os.getenv("TPS_SENDER_EMAIL", "SRV.ITREMIND.RBT@deltaww.com")
+        "sender_email": "boris.wang@deltaww.com",
+        "recipients": TPS_RECIPIENTS,
+        "sheet_name": "周轉品",
+        "log_filename": "TPS_Battery_Rotating_Stock_log.txt",
+        "subject": "Charging Warning for Inventory Items",
+    },
+    "PVI": {
+        "excel_filename": "PVI蓄电池検査2026.xlsx",
+        # Original sender: os.getenv("PVI_SENDER_EMAIL", "")
+        "sender_email": "boris.wang@deltaww.com",
+        "recipients": PVI_RECIPIENTS,
+        # PVI workbook tab is named Sheet1, but the sheet content is 新品.
+        "sheet_name": "Sheet1",
+        "log_filename": "PVI_Battery_Rotating_Stock_log.txt",
+        "subject": "Charging Warning for Inventory Items",
+    },
+}
 
 
-
-date_columns = ["Date", "Charging warning date"]
-for col in date_columns:
-    if col in df_all.columns:
-        df_all[col] = pd.to_datetime(df_all[col], errors="coerce")  # Convert to datetime
-        df_all[col] = df_all[col].where(df_all[col] >= pd.Timestamp('1753-01-01'), None)  # Set invalid dates to None
-        logging.info(f"{col} column successfully converted to datetime format")
-
-if "No." in df_all.columns:
-    df_all["No."] = pd.to_numeric(df_all["No."], errors="coerce").fillna(0).astype(int)
-    logging.info("No. column successfully converted to integer format")
-
-df_all = df_all.astype(str)
-df_all = df_all.where(df_all != "nan", None)  # 轉換 NaN 為 None
-logging.info("Missing values handled successfully")
-
-# Connect to SQL Server (using Windows authentication)
-conn = pyodbc.connect(
-    "DRIVER={SQL Server};"
-    "SERVER=jpdejitdev01;"
-    "DATABASE=ITQAS2;"
-    "Trusted_Connection=yes;"
-)
-cursor = conn.cursor()
-logging.info("Successfully connected to the database")
-
-table_name = "TPS_Bettery_Rotating_Stock"
-
-# 檢查資料表是否存在，若不存在則建立
-check_table_query = f"""
-IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{table_name}')
-BEGIN
-    CREATE TABLE {table_name} (
-        {", ".join(f"[{col}] NVARCHAR(255)" for col in df_all.columns)}
+def parse_args():
+    parser = argparse.ArgumentParser(description="Send battery charging warning email.")
+    parser.add_argument(
+        "jobs",
+        nargs="*",
+        choices=JOBS.keys(),
+        help="Battery inspection sources to process. Default: run all jobs.",
     )
-END
-"""
-cursor.execute(check_table_query)
-conn.commit()
-logging.info(f"Checked and created table if not exists: {table_name}")
+    parser.add_argument(
+        "--sender-email",
+        help="Override sender email for this run.",
+    )
+    parser.add_argument(
+        "--excel-file",
+        help="Override Excel file path for this run.",
+    )
+    return parser.parse_args()
 
-# 清空表格
-cursor.execute(f"DELETE FROM {table_name}")
-conn.commit()
-logging.info(f"Cleared table: {table_name}")
+
+def setup_logging(log_file):
+    handler = RotatingFileHandler(
+        log_file,
+        maxBytes=10 * 1024 * 1024,
+        backupCount=5,
+        encoding="utf-8",
+    )
+    logging.basicConfig(
+        handlers=[handler],
+        level=logging.INFO,
+        format="%(asctime)s - %(levelname)s - %(message)s",
+        force=True,
+    )
 
 
-# Insert data
-columns = ", ".join([f"[{col}]" for col in df_all.columns])
-placeholders = ", ".join(["?" for _ in df_all.columns])
-sql = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
-cursor.executemany(sql, df_all.values.tolist())
-conn.commit()
-logging.info(f"Successfully inserted {len(df_all)} records into {table_name}")
+def build_config(args):
+    config = JOBS[args.job_name].copy()
+    config["job_name"] = args.job_name
+    config["excel_file"] = args.excel_file or str(
+        Path(BASE_EXCEL_DIR) / config["excel_filename"]
+    )
+    config["sender_email"] = args.sender_email or config["sender_email"]
+    if not config["sender_email"]:
+        raise ValueError(
+            f"{args.job_name} sender email is not configured. "
+            "Set the sender with --sender-email or the related *_SENDER_EMAIL environment variable."
+        )
+    config["log_file"] = SCRIPT_DIR / config["log_filename"]
+    return config
 
-# Query charging warning items
-query = f"""
-SELECT * FROM {table_name}
-WHERE [Charging warning date] < GETDATE() AND [Remark] = 'Inventory'
-"""
-df_warning = pd.read_sql(query, conn)
-logging.info(f"Found {len(df_warning)} records for charging warning")
 
-cursor.close()
-conn.close()
-logging.info("Database connection closed successfully")
+def read_excel(config):
+    try:
+        excel_book = pd.ExcelFile(config["excel_file"])
+        sheet_name = config["sheet_name"]
+        if sheet_name not in excel_book.sheet_names:
+            fallback_sheet = excel_book.sheet_names[0]
+            logging.warning(
+                "Worksheet '%s' not found in %s. Available sheets: %s. Using first sheet: %s",
+                sheet_name,
+                config["excel_file"],
+                ", ".join(excel_book.sheet_names),
+                fallback_sheet,
+            )
+            sheet_name = fallback_sheet
 
-# Prepare email content
-sender_email = "SRV.ITREMIND.RBT@deltaww.com"
-password = "Dej1tasd"
-email = Email()
-subject = "Charging Warning for Inventory Items"
+        df_all = pd.read_excel(excel_book, sheet_name=sheet_name)
+        logging.info(
+            "Successfully read Excel file: %s, Sheet: %s",
+            config["excel_file"],
+            sheet_name,
+        )
+        return df_all
+    except Exception as e:
+        logging.error("Error reading Excel file: %s", e)
+        raise
 
-#charging data formate 
-if not df_warning.empty:
-    for col in ["Date", "Charging warning date"]:
-        if col in df_warning.columns:
-            # Check if the column is datetime type; if not, convert it
-            if not pd.api.types.is_datetime64_any_dtype(df_warning[col]):
-                df_warning[col] = pd.to_datetime(df_warning[col], errors="coerce")
-            df_warning[col] = df_warning[col].dt.strftime('%Y-%m-%d')
-    
-    html_table = df_warning.to_html(index=False, escape=False)
-    body_content = """
+
+def convert_soc(value):
+    try:
+        if pd.isna(value) or value is None:
+            return None
+        if isinstance(value, (int, float)):
+            return f"{value * 100:.1f}%" if 0 <= value <= 1 else str(value)
+        return str(value)
+    except Exception as e:
+        logging.error("Error processing SOC%% value %s: %s", value, e)
+        return str(value)
+
+
+def clean_data(df_all):
+    if "SOC%" in df_all.columns:
+        df_all["SOC%"] = df_all["SOC%"].apply(convert_soc)
+        logging.info("SOC%% column successfully processed")
+
+    date_columns = ["Date", "Charging warning date"]
+    for col in date_columns:
+        if col in df_all.columns:
+            df_all[col] = pd.to_datetime(df_all[col], errors="coerce")
+            df_all[col] = df_all[col].where(df_all[col] >= pd.Timestamp("1753-01-01"), None)
+            logging.info("%s column successfully converted to datetime format", col)
+
+    if "No." in df_all.columns:
+        df_all["No."] = pd.to_numeric(df_all["No."], errors="coerce").fillna(0).astype(int)
+        logging.info("No. column successfully converted to integer format")
+
+    df_all = df_all.where(pd.notna(df_all), None)
+    logging.info("Missing values handled successfully")
+    return df_all
+
+
+def query_warnings(df_all):
+    required_columns = {"Charging warning date", "Remark"}
+    missing_columns = required_columns - set(df_all.columns)
+    if missing_columns:
+        raise ValueError(f"Missing required columns in Excel: {', '.join(sorted(missing_columns))}")
+
+    warning_date = pd.to_datetime(df_all["Charging warning date"], errors="coerce")
+    remark = df_all["Remark"].fillna("").astype(str).str.strip()
+    mask = (warning_date <= pd.Timestamp.now()) & (remark == "Inventory")
+    df_warning = df_all.loc[mask].copy()
+    logging.info("Found %s records for charging warning", len(df_warning))
+    return df_warning
+
+
+def build_email_body(df_warning):
+    if not df_warning.empty:
+        for col in ["Date", "Charging warning date"]:
+            if col in df_warning.columns:
+                if not pd.api.types.is_datetime64_any_dtype(df_warning[col]):
+                    df_warning[col] = pd.to_datetime(df_warning[col], errors="coerce")
+                df_warning[col] = df_warning[col].dt.strftime("%Y-%m-%d")
+
+        body_content = """
     <p style="font-size: 18px; font-family: 'Arial', sans-serif; color: #333;">The following models need attention for charging and discharging.</p>
     """
-else:
-    html_table = "<table><tr>" + "".join(f"<th>{col}</th>" for col in df_all.columns) + "</tr></table>"
-    body_content = """
+    else:
+        body_content = """
     <p style="font-size: 18px; font-family: 'Arial', sans-serif; color: #333;">No charging or discharging needed for models this week.</p>
     """
 
-charging_warning_date_index = 8
+    html_table = df_warning.to_html(index=False, escape=False)
+    if "Charging warning date" in df_warning.columns:
+        html_table = html_table.replace(
+            "<th>Charging warning date</th>",
+            "<th style='background-color: #FF0000; color: white;'>Charging warning date</th>",
+        )
 
-# Convert table and modify header background color for Charging warning date
-html_table = df_warning.to_html(index=False, escape=False)
-
-# Manually set red background color for Charging warning date column header
-html_table = html_table.replace(
-    f"<th>{df_warning.columns[charging_warning_date_index]}</th>", 
-    f"<th style='background-color: #FF0000; color: white;'>{df_warning.columns[charging_warning_date_index]}</th>"
-)
-
-body = f"""
+    return f"""
 <html>
     <head>
         <style>
@@ -181,10 +234,57 @@ body = f"""
 </html>
 """
 
-# Send email with log file attached
-# for u in ['boris.wang@deltaww.com']:
-#     email.send_email(sender_email, password, u, subject, body, log_file)
-for u in ['boris.wang@deltaww.com','JPSTC.LGS@deltaww.com','JPOBMFAE@deltaww.com']:
-    email.send_email(sender_email, password, u, subject, body, log_file)
 
-logging.info("Email sent successfully")
+def send_warning_email(config, body):
+    # Local PC test: set DELTA_SMTP_PASSWORD before running to authenticate with deltarelay.
+    # VM deployment: leave DELTA_SMTP_PASSWORD unset to use the relay anonymously.
+    password = os.getenv("DELTA_SMTP_PASSWORD", "")
+    email = Email()
+    attachments = [str(config["log_file"])] if config["log_file"].exists() else []
+    receiver_email = ",".join(config["recipients"])
+
+    email.send_email(
+        config["sender_email"],
+        password,
+        receiver_email,
+        config["subject"],
+        body,
+        attachments,
+    )
+    logging.info("Email sent successfully to all recipients")
+
+
+def run_job(job_name, args):
+    args.job_name = job_name
+    config = build_config(args)
+    setup_logging(config["log_file"])
+    logging.info("Program started running for %s", config["job_name"])
+
+    df_all = clean_data(read_excel(config))
+    df_warning = query_warnings(df_all)
+    body = build_email_body(df_warning)
+    send_warning_email(config, body)
+    logging.info("Program finished successfully for %s", config["job_name"])
+
+
+def main():
+    args = parse_args()
+    selected_jobs = args.jobs or list(JOBS.keys())
+    if args.excel_file and len(selected_jobs) != 1:
+        raise ValueError("--excel-file can only be used when running a single job.")
+
+    failures = []
+    for job_name in selected_jobs:
+        try:
+            run_job(job_name, args)
+        except Exception as e:
+            failures.append((job_name, e))
+            logging.exception("Program failed for %s", job_name)
+
+    if failures:
+        failed_names = ", ".join(job_name for job_name, _ in failures)
+        raise SystemExit(f"Failed jobs: {failed_names}")
+
+
+if __name__ == "__main__":
+    main()

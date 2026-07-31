@@ -1,0 +1,94 @@
+2026-07-31 10:16:35,976 - INFO - Program started running for PVI
+2026-07-31 10:16:36,244 - ERROR - Error reading Excel file: Worksheet named '���z�i' not found
+2026-07-31 10:16:36,245 - ERROR - Program failed for PVI
+Traceback (most recent call last):
+  File "D:\DeltaBox\OneDrive - Delta Electronics, Inc\deltaproject\DEJbackup\Battery\ChargeAnnouncement.py", line 248, in main
+    run_job(job_name, args)
+  File "D:\DeltaBox\OneDrive - Delta Electronics, Inc\deltaproject\DEJbackup\Battery\ChargeAnnouncement.py", line 232, in run_job
+    df_all = clean_data(read_excel(config))
+                        ^^^^^^^^^^^^^^^^^^
+  File "D:\DeltaBox\OneDrive - Delta Electronics, Inc\deltaproject\DEJbackup\Battery\ChargeAnnouncement.py", line 92, in read_excel
+    df_all = pd.read_excel(config["excel_file"], sheet_name=config["sheet_name"])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\boris.wang\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\excel\_base.py", line 508, in read_excel
+    data = io.parse(
+           ^^^^^^^^^
+  File "C:\Users\boris.wang\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\excel\_base.py", line 1616, in parse
+    return self._reader.parse(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\boris.wang\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\excel\_base.py", line 773, in parse
+    sheet = self.get_sheet_by_name(asheetname)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\boris.wang\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\excel\_openpyxl.py", line 582, in get_sheet_by_name
+    self.raise_if_bad_sheet_by_name(name)
+  File "C:\Users\boris.wang\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\io\excel\_base.py", line 624, in raise_if_bad_sheet_by_name
+    raise ValueError(f"Worksheet named '{name}' not found")
+ValueError: Worksheet named '���z�i' not found
+2026-07-31 10:23:40,127 - INFO - Program started running for PVI
+2026-07-31 10:23:40,238 - INFO - SOC%% column successfully processed
+2026-07-31 10:23:40,240 - INFO - Date column successfully converted to datetime format
+2026-07-31 10:23:40,242 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-31 10:23:40,242 - INFO - No. column successfully converted to integer format
+2026-07-31 10:23:40,244 - INFO - Missing values handled successfully
+2026-07-31 10:23:40,246 - INFO - Found 0 records for charging warning
+2026-07-31 10:23:45,716 - ERROR - Program failed for PVI
+Traceback (most recent call last):
+  File "d:\DeltaBox\OneDrive - Delta Electronics, Inc\deltaproject\DEJbackup\Battery\ChargeAnnouncement.py", line 263, in main
+    run_job(job_name, args)
+  File "d:\DeltaBox\OneDrive - Delta Electronics, Inc\deltaproject\DEJbackup\Battery\ChargeAnnouncement.py", line 250, in run_job
+    send_warning_email(config, body)
+  File "d:\DeltaBox\OneDrive - Delta Electronics, Inc\deltaproject\DEJbackup\Battery\ChargeAnnouncement.py", line 230, in send_warning_email
+    email.send_email(
+  File "d:\DeltaBox\OneDrive - Delta Electronics, Inc\deltaproject\DEJbackup\Battery\sendEmail.py", line 59, in send_email
+    server.sendmail(sender_email, receiver_list, msg.as_string())
+  File "C:\Users\boris.wang\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 876, in sendmail
+    raise SMTPSenderRefused(code, resp, from_addr)
+smtplib.SMTPSenderRefused: (530, b'5.7.57 SMTP; Client was not authenticated to send anonymous mail during MAIL FROM', 'boris.wang@deltaww.com')
+2026-07-31 10:23:59,372 - INFO - Program started running for PVI
+2026-07-31 10:23:59,475 - INFO - SOC%% column successfully processed
+2026-07-31 10:23:59,475 - INFO - Date column successfully converted to datetime format
+2026-07-31 10:23:59,490 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-31 10:23:59,490 - INFO - No. column successfully converted to integer format
+2026-07-31 10:23:59,490 - INFO - Missing values handled successfully
+2026-07-31 10:23:59,490 - INFO - Found 0 records for charging warning
+2026-07-31 10:24:00,752 - INFO - Email sent successfully to all recipients
+2026-07-31 10:24:00,752 - INFO - Program finished successfully for PVI
+2026-07-31 10:26:27,145 - INFO - Program started running for PVI
+2026-07-31 10:26:27,728 - INFO - SOC%% column successfully processed
+2026-07-31 10:26:27,730 - INFO - Date column successfully converted to datetime format
+2026-07-31 10:26:27,731 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-31 10:26:27,731 - INFO - No. column successfully converted to integer format
+2026-07-31 10:26:27,732 - INFO - Missing values handled successfully
+2026-07-31 10:26:27,734 - INFO - Found 0 records for charging warning
+2026-07-31 10:26:29,243 - INFO - Email sent successfully to all recipients
+2026-07-31 10:26:29,243 - INFO - Program finished successfully for PVI
+2026-07-31 10:40:39,381 - INFO - Program started running for PVI
+2026-07-31 10:40:39,572 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\●物流&OBM共用\蓄電池相關\PVI蓄电池検査2026.xlsx, Sheet: Sheet1
+2026-07-31 10:40:39,579 - INFO - SOC%% column successfully processed
+2026-07-31 10:40:39,582 - INFO - Date column successfully converted to datetime format
+2026-07-31 10:40:39,584 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-31 10:40:39,584 - INFO - No. column successfully converted to integer format
+2026-07-31 10:40:39,586 - INFO - Missing values handled successfully
+2026-07-31 10:40:39,589 - INFO - Found 0 records for charging warning
+2026-07-31 10:40:40,651 - INFO - Email sent successfully to all recipients
+2026-07-31 10:40:40,652 - INFO - Program finished successfully for PVI
+2026-07-31 11:11:06,089 - INFO - Program started running for PVI
+2026-07-31 11:11:06,664 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\●物流&OBM共用\蓄電池相關\PVI蓄电池検査2026.xlsx, Sheet: Sheet1
+2026-07-31 11:11:06,665 - INFO - SOC%% column successfully processed
+2026-07-31 11:11:06,667 - INFO - Date column successfully converted to datetime format
+2026-07-31 11:11:06,669 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-31 11:11:06,670 - INFO - No. column successfully converted to integer format
+2026-07-31 11:11:06,673 - INFO - Missing values handled successfully
+2026-07-31 11:11:06,677 - INFO - Found 0 records for charging warning
+2026-07-31 11:11:08,338 - INFO - Email sent successfully to all recipients
+2026-07-31 11:11:08,339 - INFO - Program finished successfully for PVI
+2026-07-31 11:12:06,491 - INFO - Program started running for PVI
+2026-07-31 11:12:06,600 - INFO - Successfully read Excel file: \\jpdejstcfs01\STC_share\●物流&OBM共用\蓄電池相關\PVI蓄电池検査2026.xlsx, Sheet: Sheet1
+2026-07-31 11:12:06,602 - INFO - SOC%% column successfully processed
+2026-07-31 11:12:06,603 - INFO - Date column successfully converted to datetime format
+2026-07-31 11:12:06,606 - INFO - Charging warning date column successfully converted to datetime format
+2026-07-31 11:12:06,607 - INFO - No. column successfully converted to integer format
+2026-07-31 11:12:06,611 - INFO - Missing values handled successfully
+2026-07-31 11:12:06,615 - INFO - Found 0 records for charging warning
+2026-07-31 11:12:08,370 - INFO - Email sent successfully to all recipients
+2026-07-31 11:12:08,371 - INFO - Program finished successfully for PVI
