@@ -60,7 +60,6 @@ def parse_args():
     parser.add_argument(
         "jobs",
         nargs="*",
-        choices=JOBS.keys(),
         help="Battery inspection sources to process. Default: run all jobs.",
     )
     parser.add_argument(
@@ -71,7 +70,14 @@ def parse_args():
         "--excel-file",
         help="Override Excel file path for this run.",
     )
-    return parser.parse_args()
+    args = parser.parse_args()
+    invalid_jobs = [job_name for job_name in args.jobs if job_name not in JOBS]
+    if invalid_jobs:
+        parser.error(
+            f"Unknown job(s): {', '.join(invalid_jobs)}. "
+            f"Choose from: {', '.join(JOBS)}."
+        )
+    return args
 
 
 def setup_logging(log_file):
