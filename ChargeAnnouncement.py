@@ -11,6 +11,7 @@ from sendEmail import Email
 
 BASE_EXCEL_DIR = r"\\jpdejstcfs01\STC_share\●物流&OBM共用\蓄電池相關"
 SCRIPT_DIR = Path(__file__).resolve().parent
+IT_REMINDER_SENDER = "SRV.ITREMIND.RBT@deltaww.com"
 
 TPS_RECIPIENTS = [
     # Production TPS recipients:
@@ -35,8 +36,7 @@ PVI_RECIPIENTS = [
 JOBS = {
     "TPS": {
         "excel_filename": "TPS蓄電池検査_FAE物流共用表單_2025.xlsx",
-        # Original sender: os.getenv("TPS_SENDER_EMAIL", "SRV.ITREMIND.RBT@deltaww.com")
-        "sender_email": "boris.wang@deltaww.com",
+        "sender_email": os.getenv("TPS_SENDER_EMAIL", IT_REMINDER_SENDER),
         "recipients": TPS_RECIPIENTS,
         "sheet_name": "周轉品",
         "log_filename": "TPS_Battery_Rotating_Stock_log.txt",
@@ -44,8 +44,7 @@ JOBS = {
     },
     "PVI": {
         "excel_filename": "PVI蓄电池検査2026.xlsx",
-        # Original sender: os.getenv("PVI_SENDER_EMAIL", "")
-        "sender_email": "boris.wang@deltaww.com",
+        "sender_email": os.getenv("PVI_SENDER_EMAIL", IT_REMINDER_SENDER),
         "recipients": PVI_RECIPIENTS,
         # PVI workbook tab is named Sheet1, but the sheet content is 新品.
         "sheet_name": "Sheet1",
